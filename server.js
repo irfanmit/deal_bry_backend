@@ -11,9 +11,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json()); // To parse JSON data
-app.use('/public', express.static('uploads')); // To serve uploaded images from /public
+app.use('/public', express.static('uploads')); 
 
-// Connect to MongoDB (replace with your actual MongoDB URI)
+// Connect to MongoDB 
 mongoose.connect('mongodb+srv://faisalirfan2502:3LxgNMpUqMrkCvFL@cluster0.x6qkv.mongodb.net/')
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Error connecting to MongoDB:', err));
@@ -26,7 +26,7 @@ const employeeSchema = new mongoose.Schema({
   mobile: String,
   gender: String,
   courses: [String],
-  image: String, // Store image URL
+  image: String,
 });
 
 // Employee model
@@ -48,7 +48,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Create an employee
+// Creating employee
 app.post('/employees', upload.single('image'), async (req, res) => {
   try {
     const { name, email, designation, mobile, gender, courses } = req.body;
@@ -61,7 +61,7 @@ app.post('/employees', upload.single('image'), async (req, res) => {
       mobile,
       gender,
       courses,
-      image: imagePath // Provide a full image URL
+      image: imagePath
     });
 
     await employee.save();
@@ -74,7 +74,7 @@ app.post('/employees', upload.single('image'), async (req, res) => {
   }
 });
 
-// Retrieve and return all employees
+// return all employees
 app.get('/get_employees', async (req, res) => {
   console.log(" fetching ,,,,,,,,,,,,,,,,,,,,,,,,,,");
   
@@ -89,7 +89,7 @@ app.get('/get_employees', async (req, res) => {
   }
 });
 
-// Start the server
+// server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
